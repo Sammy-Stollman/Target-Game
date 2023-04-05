@@ -242,7 +242,7 @@ public class HelloApplication extends Application {
 
 
     public void handleDeath(MouseEvent e, Scene scene, Stage primaryStage) {
-        Label secondLabel = new Label("YOU LOSE");
+        Label secondLabel = new Label("YOU SUCK!");
         secondLabel.setFont(Font.font("Roboto", FontWeight.EXTRA_LIGHT, 300));
         Pane p = new Pane();
         StackPane secondaryLayout = new StackPane();
@@ -258,7 +258,7 @@ public class HelloApplication extends Application {
         // New window (Stage)
         Stage newWindow = new Stage();
         //newWindow.setFullScreen(true);
-        newWindow.setTitle("YOU LOSE");
+        newWindow.setTitle("YOU SUCK STUPID BITCH");
         newWindow.setScene(secondScene);
 
 
