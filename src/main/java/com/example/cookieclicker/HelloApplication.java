@@ -37,19 +37,30 @@ import javafx.scene.layout.BorderPane;
 
 
 public class HelloApplication extends Application {
-    //Image img = new Image("https://corporate.target.com/_media/TargetCorp/Press/B-roll%20and%20Press%20Materials/Logos/Target_Bullseye-Logo_Red_transparent.png?preset=640w");
-    Image img = new Image("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif");
-    //Image img = new Image("https://witdirectoryphoto.z13.web.core.windows.net/mark.thompson.jpg");
-    //Image img = new Image("https://i.redd.it/yvwiwgcgdwr91.gif");
-    Image img1 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/mark.thompson.jpg");
-    Image img2 = new Image("https://media.licdn.com/dms/image/C4D03AQGKjGkn-IQ5kw/profile-displayphoto-shrink_800_800/0/1528981427807?e=2147483647&v=beta&t=2-HMbPxa6EioyDQS_5K19PXrN1yWvWeYW5vk9CnFue4");
-    Image img3 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/rosenbergd.jpg");
 
+    Image img = new Image("https://upload.wikimedia.org/wikipedia/commons/7/7f/Rotating_earth_animated_transparent.gif?20201022124448");
+
+    Image img1 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/mark.thompson.jpg");
+    Image img2 = new Image("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWM3MjRmMWY4YTg5ZWFkYzgxOGU0N2QwNWVjMDlhNzRmMTViN2I3NSZjdD1n/iwJMmqOiqzss0/giphy.gif");
+    Image img3 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/choij5.jpg");
+    Image img4 = new Image("https://i.pinimg.com/originals/d2/fc/e6/d2fce61fd4ea5efdf0c0d23053d44299.png");
+    Image red = new Image("https://www.iconsdb.com/icons/preview/soylent-red/dvd-xxl.png");
+    Image white = new Image("https://www.iconsdb.com/icons/preview/white/dvd-xxl.png");
+    Image yellow = new Image("https://www.iconsdb.com/icons/preview/color/FFD500/dvd-xxl.png");
+    Image blue = new Image("https://www.iconsdb.com/icons/preview/caribbean-blue/dvd-xxl.png");
+    Image orange = new Image("https://www.iconsdb.com/icons/preview/orange/dvd-xxl.png");
+    Image green = new Image("https://www.iconsdb.com/icons/preview/guacamole-green/dvd-xxl.png");
+    Image purple = new Image("https://www.iconsdb.com/icons/preview/color/9021FF/dvd-xxl.png");
+    Image green1 = new Image("https://www.iconsdb.com/icons/preview/color/40FF93/dvd-xxl.png");
+    Image pink = new Image("https://www.iconsdb.com/icons/preview/barbie-pink/dvd-xxl.png");
+    Image bluegreen = new Image("https://www.iconsdb.com/icons/preview/color/00FFAA/dvd-xxl.png");
+    Image darkblue = new Image("https://www.iconsdb.com/icons/preview/color/0B0BD6/dvd-xxl.png");
+    Image[] dvd = new Image[]{red, white, yellow, blue, orange, green, purple, green1, pink, bluegreen, darkblue};
     public static Circle circle;
-    //public static Button bg; //make button so background is clickable
     public static Pane canvas;
-    private double speed = 2;
-    private float size = 100;
+    private double speed = 15;
+    private float size = 127;
+    private Button button;
 
     private int counter = 0;
     private Label label = new Label("");
@@ -125,19 +136,7 @@ public class HelloApplication extends Application {
             @Override
             public void handle(final ActionEvent t) {
 
-                if (counter==5){
 
-                    circle.setFill(new ImagePattern(img1));
-                    //loop.getKeyFrames().addAll(kf,new KeyFrame(Duration.millis(3)));
-                }
-
-                if (counter == 20){
-                    circle.setFill(new ImagePattern(img2));
-                }
-
-                if (counter == 100){
-                    circle.setFill(new ImagePattern(img3));
-                }
                 circle.setLayoutX(circle.getLayoutX() + deltaX);
                 circle.setLayoutY(circle.getLayoutY() + deltaY);
 
@@ -152,6 +151,36 @@ public class HelloApplication extends Application {
                 }
                 if (atBottomBorder || atTopBorder) {
                     deltaY *= -1;
+                }
+                if (counter==5){
+
+                    circle.setFill(new ImagePattern(img1));
+                    canvas.setStyle("-fx-background-color: #ffcc99");
+                    //loop.getKeyFrames().addAll(kf,new KeyFrame(Duration.millis(3)));
+                    loop.setRate(5);
+                }
+
+                if (counter == 20){
+                    circle.setFill(new ImagePattern(img2));
+                    canvas.setStyle("-fx-background-color: #99ffe6");
+                }
+
+                if (counter == 50){
+                    circle.setFill(new ImagePattern(img3));
+                    canvas.setStyle("-fx-background-color: #9999ff");
+                }
+                if (counter == 100){
+                    circle.setFill(new ImagePattern(img4));
+                    canvas.setStyle("-fx-background-color: #00ff00");
+                }
+                if (counter >= 105){
+                    canvas.setStyle("-fx-background-color: black");
+                    circle.setRadius(counter -10);
+                    loop.setRate(2);
+                    if(atRightBorder || atLeftBorder || atBottomBorder || atTopBorder){
+                        int rnd = new Random().nextInt(dvd.length);
+                        circle.setFill(new ImagePattern(dvd[rnd]));
+                    }
                 }
             }
         });
@@ -173,7 +202,7 @@ public class HelloApplication extends Application {
 
         label.relocate(200, 100);
         canvas.getChildren().add(label);
-
+        canvas.setStyle("-fx-background-color: #00b0e0");
 
         loop.setCycleCount(Timeline.INDEFINITE);
         loop.play();
@@ -214,27 +243,27 @@ public class HelloApplication extends Application {
 
     public void handleDeath(MouseEvent e, Scene scene, Stage primaryStage) {
         Label secondLabel = new Label("YOU LOSE");
-        secondLabel.setFont(Font.font("Roboto", FontWeight.EXTRA_LIGHT, 50));
+        secondLabel.setFont(Font.font("Roboto", FontWeight.EXTRA_LIGHT, 300));
         Pane p = new Pane();
         StackPane secondaryLayout = new StackPane();
 
 
-        p.setStyle("-fx-background-color: red;");
+        p.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #686af7, #9fa0a1)");
         secondaryLayout.getChildren().add(p);
         secondaryLayout.getChildren().add(secondLabel);
 
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Scene secondScene = new Scene(secondaryLayout);
+
 
         // New window (Stage)
         Stage newWindow = new Stage();
+        //newWindow.setFullScreen(true);
         newWindow.setTitle("YOU LOSE");
         newWindow.setScene(secondScene);
 
 
-        // Set position of second window, related to primary window.
-        newWindow.setX(200);
-        newWindow.setY(100);
         primaryStage.close();
+
         newWindow.show();
     }
 }
