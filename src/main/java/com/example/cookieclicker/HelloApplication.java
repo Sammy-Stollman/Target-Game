@@ -8,7 +8,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -32,10 +31,10 @@ import java.util.Random;
 public class HelloApplication extends Application {
 
     Image img = new Image("https://upload.wikimedia.org/wikipedia/commons/7/7f/Rotating_earth_animated_transparent.gif?20201022124448");
-    Image img1 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/mark.thompson.jpg");
+    Image img1 = new Image("https://www.nasa.gov/centers/goddard/images/content/387520main_92_80_1-334x312.gif");
     Image img2 = new Image("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWM3MjRmMWY4YTg5ZWFkYzgxOGU0N2QwNWVjMDlhNzRmMTViN2I3NSZjdD1n/iwJMmqOiqzss0/giphy.gif");
-    Image img3 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/choij5.jpg");
-    Image img4 = new Image("https://i.pinimg.com/originals/d2/fc/e6/d2fce61fd4ea5efdf0c0d23053d44299.png");
+    Image img3 = new Image("https://pbs.twimg.com/profile_images/1623040457218396168/9LR7Jg9u_400x400.jpg");
+    Image img4 = new Image("https://bbts1.azureedge.net/images/p/full/2022/12/9377e258-ce2b-4f17-bc8e-b18fa6b85a4f.jpg");
     Image red = new Image("https://www.iconsdb.com/icons/preview/soylent-red/dvd-xxl.png");
     Image white = new Image("https://www.iconsdb.com/icons/preview/white/dvd-xxl.png");
     Image yellow = new Image("https://www.iconsdb.com/icons/preview/color/FFD500/dvd-xxl.png");
@@ -114,28 +113,34 @@ public class HelloApplication extends Application {
                 if (atBottomBorder || atTopBorder) {
                     deltaY *= -1;
                 }
-                if (counter==5){
-                    circle.setFill(new ImagePattern(img1));
-                    canvas.setStyle("-fx-background-color: #ffcc99");
-                }
 
                 if (counter == 20){
                     circle.setFill(new ImagePattern(img2));
                     canvas.setStyle("-fx-background-color: #99ffe6");
+                    loop.setRate(1.2);
                 }
 
                 if (counter == 50){
                     circle.setFill(new ImagePattern(img3));
                     canvas.setStyle("-fx-background-color: #9999ff");
+                    loop.setRate(1.3);
                 }
                 if (counter == 100){
+                    circle.setRadius(100);
                     circle.setFill(new ImagePattern(img4));
-                    canvas.setStyle("-fx-background-color: #00ff00");
+                    canvas.setStyle("-fx-background-color: #42f58d");
+                    loop.setRate(1.4);
                 }
-                if (counter >= 5){
+                if(counter==200){
+                    circle.setRadius(90);
+                    circle.setFill(new ImagePattern(img1));
+                    loop.setRate(2);
+
+                }
+                if (counter >= 300){
                     canvas.setStyle("-fx-background-color: black");
-                    circle.setRadius(50);
-                    loop.setRate(1.2);
+                    circle.setRadius(70);
+                    loop.setRate(2.2);
                     int rnd1 = new Random().nextInt(dvd.length);
                     if(atRightBorder || atLeftBorder || atBottomBorder || atTopBorder){
                         int rnd = new Random().nextInt(dvd.length);
@@ -206,7 +211,7 @@ public class HelloApplication extends Application {
         // New window (Stage)
         Stage newWindow = new Stage();
         //newWindow.setFullScreen(true);
-        newWindow.setTitle("YOU LOSE STUPID BITCH. EAT A FAT BUTT LOSER!!!!");
+        newWindow.setTitle("YOU LOSE");
         newWindow.setScene(secondScene);
 
 
