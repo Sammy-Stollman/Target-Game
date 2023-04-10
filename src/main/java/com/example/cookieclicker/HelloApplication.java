@@ -3,17 +3,15 @@ package com.example.cookieclicker;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.css.converter.FontConverter;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.layout.Border;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -24,12 +22,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Random;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+
 
 
 
@@ -39,7 +32,6 @@ import javafx.scene.layout.BorderPane;
 public class HelloApplication extends Application {
 
     Image img = new Image("https://upload.wikimedia.org/wikipedia/commons/7/7f/Rotating_earth_animated_transparent.gif?20201022124448");
-
     Image img1 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/mark.thompson.jpg");
     Image img2 = new Image("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWM3MjRmMWY4YTg5ZWFkYzgxOGU0N2QwNWVjMDlhNzRmMTViN2I3NSZjdD1n/iwJMmqOiqzss0/giphy.gif");
     Image img3 = new Image("https://witdirectoryphoto.z13.web.core.windows.net/choij5.jpg");
@@ -60,14 +52,14 @@ public class HelloApplication extends Application {
     public static Pane canvas;
     private double speed = 15;
     private float size = 127;
-    private Button button;
-
     private int counter = 0;
     private Label label = new Label("");
+    private BackgroundMusic music = new BackgroundMusic();
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
+        music.start(primaryStage);
         canvas = new Pane();
         Scene scene = new Scene(canvas, 1000, 800);
 
@@ -80,29 +72,12 @@ public class HelloApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-//        bg = new Button("Click to lose");
-//        bg.relocate(0,0);
-//        bg.resize(1000,800);
-
         circle = new Circle(size, Color.TOMATO);
         circle.relocate(0, 0);
         circle.setFill(new ImagePattern(img));
 
         //canvas.getChildren().addAll(bg);
         canvas.getChildren().addAll(circle);
-
-
-//        circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Point2D point2D = new Point2D(event.getX(), event.getY());
-//                if (!(circle.contains(point2D))) {
-//                    EventHandler<MouseEvent> deathHandler = e -> handleDeath(e, scene, primaryStage); //deathHandler is called which brings up end screen when circle is missed
-//                    circle.addEventHandler(MouseEvent.MOUSE_CLICKED, deathHandler);
-//
-//                }
-//            }
-//        });
 
         EventHandler<MouseEvent> circleMeHandler = e -> handleEventforCircle(e); //handleEventforCircle is called when circle is clicked
         circle.addEventHandler(MouseEvent.MOUSE_CLICKED, circleMeHandler);
@@ -113,19 +88,6 @@ public class HelloApplication extends Application {
         EventHandler<MouseEvent> mouseHandler = e -> handleMouse1(e, scene); //handleMouse1 which changes cursor back is called when mouse leaves circle
         circle.addEventHandler(MouseEvent.MOUSE_EXITED, mouseHandler);
 
-        //EventHandler<MouseEvent> deathHandler = e -> handleDeath(e, scene, primaryStage); //deathHandler is called which brings up end screen when circle is missed
-        //bg.addEventHandler(MouseEvent.MOUSE_CLICKED, deathHandler);
-//        MouseEvent m = new MouseEvent();
-//        Point2D point2D = new Point2D( .getX();, .getY());
-//        if (circle.contains(point2D)) {
-//            System.out.println("circle clicked");
-//        }
-
-//
-//        double X = circle.getCenterX();
-//        double Y = circle.getCenterY();
-//        double rad = circle.getRadius();
-//        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, deathHandler);
         final Timeline loop = new Timeline();
         KeyFrame kf = new KeyFrame(Duration.millis(speed), new EventHandler<ActionEvent>() {
             double deltaX = 3;
@@ -153,11 +115,8 @@ public class HelloApplication extends Application {
                     deltaY *= -1;
                 }
                 if (counter==5){
-
                     circle.setFill(new ImagePattern(img1));
                     canvas.setStyle("-fx-background-color: #ffcc99");
-                    //loop.getKeyFrames().addAll(kf,new KeyFrame(Duration.millis(3)));
-                    loop.setRate(5);
                 }
 
                 if (counter == 20){
@@ -173,13 +132,15 @@ public class HelloApplication extends Application {
                     circle.setFill(new ImagePattern(img4));
                     canvas.setStyle("-fx-background-color: #00ff00");
                 }
-                if (counter >= 105){
+                if (counter >= 5){
                     canvas.setStyle("-fx-background-color: black");
-                    circle.setRadius(counter -10);
-                    loop.setRate(2);
+                    circle.setRadius(50);
+                    loop.setRate(1.2);
+                    int rnd1 = new Random().nextInt(dvd.length);
                     if(atRightBorder || atLeftBorder || atBottomBorder || atTopBorder){
                         int rnd = new Random().nextInt(dvd.length);
                         circle.setFill(new ImagePattern(dvd[rnd]));
+
                     }
                 }
             }
@@ -204,20 +165,11 @@ public class HelloApplication extends Application {
         canvas.getChildren().add(label);
         canvas.setStyle("-fx-background-color: #00b0e0");
 
+
         loop.setCycleCount(Timeline.INDEFINITE);
         loop.play();
-
-
     }
 
-//    public boolean isMouseClose(MouseEvent event, double X, double Y, double rad) {
-//        double x = event.getX();
-//        double y = event.getY();
-//        if((X>=x+rad||X<=x-rad)&&(Y>=y+rad||Y<=y-rad)){
-//            return true;
-//        }
-//        return false;
-//    }
 
     public void counter() {
         counter++;
@@ -231,18 +183,14 @@ public class HelloApplication extends Application {
         counter();
         label.setText(Integer.toString(counter));
     }
-
     public void handleMouse(MouseEvent e, Scene scene) {
         scene.setCursor(Cursor.CROSSHAIR);
     }
-
     public void handleMouse1(MouseEvent e, Scene scene) {
         scene.setCursor(Cursor.DEFAULT);
     }
-
-
     public void handleDeath(MouseEvent e, Scene scene, Stage primaryStage) {
-        Label secondLabel = new Label("YOU SUCK!");
+        Label secondLabel = new Label("YOU LOSE!");
         secondLabel.setFont(Font.font("Roboto", FontWeight.EXTRA_LIGHT, 300));
         Pane p = new Pane();
         StackPane secondaryLayout = new StackPane();
@@ -258,7 +206,7 @@ public class HelloApplication extends Application {
         // New window (Stage)
         Stage newWindow = new Stage();
         //newWindow.setFullScreen(true);
-        newWindow.setTitle("YOU SUCK STUPID BITCH");
+        newWindow.setTitle("YOU LOSE STUPID BITCH. EAT A FAT BUTT LOSER!!!!");
         newWindow.setScene(secondScene);
 
 
